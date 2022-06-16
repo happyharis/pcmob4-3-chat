@@ -13,11 +13,17 @@ const auth = firebase.auth();
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [errorText, setErrorText] = useState("");
   function login() {
-    auth.signInWithEmailAndPassword(email, password).then(() => {
-      navigation.navigate("Chat");
-    });
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate("Chat");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setErrorText(error.message);
+      });
   }
   return (
     <View style={styles.container}>
@@ -41,6 +47,7 @@ export default function LoginScreen({ navigation }) {
       <TouchableOpacity style={styles.loginButton} onPress={login}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      <Text style={styles.errorText}>{errorText}</Text>
     </View>
   );
 }
