@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { GiftedChat } from "react-native-gifted-chat";
 
 const demoMessage = {
   _id: 1,
-  text: "Hello there!",
+  text: "When is lunch?",
   createdAt: new Date(),
   user: {
     _id: 2,
-    name: "Demo person",
+    name: "Sexy person",
     avatar: "https://placeimg.com/140/140/any",
   },
 };
@@ -18,10 +19,23 @@ export default function ChatScreen() {
     setMessages([demoMessage]);
   }, []);
 
+  function sendMessages(newMessages) {
+    console.log(newMessages);
+    setMessages([...messages, ...newMessages]);
+  }
+
   return (
-    <View>
-      <Text>ChatScreen</Text>
-    </View>
+    <GiftedChat
+      messages={messages}
+      onSend={sendMessages}
+      renderUsernameOnMessage={true}
+      listViewProps={{
+        style: {
+          backgroundColor: "#666",
+        },
+      }}
+      user={{ _id: 1 }}
+    />
   );
 }
 
