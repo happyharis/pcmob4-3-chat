@@ -6,10 +6,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
+import firebase from "../database/firebaseDB";
 
-export default function LoginScreen() {
+const auth = firebase.auth();
+
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  function login() {
+    auth.signInWithEmailAndPassword(email, password).then(() => {
+      navigation.navigate("Chat");
+    });
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Chat App</Text>
@@ -29,7 +38,7 @@ export default function LoginScreen() {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.loginButton} onPress={null}>
+      <TouchableOpacity style={styles.loginButton} onPress={login}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
